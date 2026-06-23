@@ -63,6 +63,17 @@ window.AFK = {
     return cfg.ms;
   },
 
+  isRunning: function () {
+    return this._running;
+  },
+
+  getTimeUntilNextMs: function () {
+    if (!this._running) return null;
+    var d = Save.get();
+    var nextAt = (d.afk.lastTick || Date.now()) + this.getInterval();
+    return Math.max(0, nextAt - Date.now());
+  },
+
   start: function () {
     if (this._running) return;
     var deck = DeckBuilder.getDeck();
@@ -87,7 +98,10 @@ window.AFK = {
     this._runBattle();
     var self = this;
     this._timer = setInterval(function () { self._runBattle(); }, this.getInterval());
-    if (window.PiP) PiP.update();
+    if (window.PiP) {
+      PiP.update();
+      PiP.refreshIdle();
+    }
   },
 
   stop: function () {
@@ -102,7 +116,10 @@ window.AFK = {
     Save.save();
     this._state.statusText = "Stopped";
     this._refreshUI();
-    if (window.PiP) PiP.update();
+    if (window.PiP) {
+      PiP.update();
+      PiP.refreshIdle();
+    }
   },
 
   _runBattle: function () {
@@ -129,7 +146,13 @@ window.AFK = {
     DeckBuilder._updateRankDisplay();
     this._refreshUI();
     this._showToast(resolved);
-    if (window.PiP) PiP.update();
+    if (window.PiP) {
+      if (PiP.isActive()) {
+        PiP.playBattleEvent(resolved);
+      } else {
+        PiP.update();
+      }
+    }
   },
 
   _showToast: function (resolved) {

@@ -6,6 +6,7 @@ window.UI = {
   _battleQueue: [],
   _battlePlaying: false,
   _battleSpeed: 1,
+  _newCardObserver: null,
 
   /* ---------- Initialization ---------- */
   init: function () {
@@ -85,6 +86,7 @@ window.UI = {
     var selected = options.selected || false;
     var faceDown = options.faceDown || false;
     var locked = options.locked || false;
+    var isNew = !locked && window.Save && Save.isUnseen(card.id);
 
     var el = document.createElement("div");
     el.className = "card";
@@ -95,6 +97,7 @@ window.UI = {
     if (size === "large") el.classList.add("card-large");
     if (selected) el.classList.add("selected");
     if (locked) el.classList.add("locked");
+    if (isNew) el.classList.add("card-new");
     if (!clickable) el.style.cursor = "default";
     if (faceDown) el.classList.add("face-down");
 
@@ -135,9 +138,58 @@ window.UI = {
       (card.junctionAbilityName
         ? '<div class="card-ability" title="' + card.junctionAbilityName + '">' + card.junctionAbilityName + "</div>"
         : "") +
-      (locked ? '<div class="card-lock-overlay">LOCKED</div>' : "");
+      (locked ? '<div class="card-lock-overlay">LOCKED</div>' : "") +
+      (isNew ? '<div class="card-new-badge">NEW</div>' : "");
 
     return el;
+  },
+
+  markCardSeen: function (cardId) {
+    if (!window.Save) return;
+    if (!Save.isUnseen(cardId)) return;
+    Save.markSeen(cardId);
+    var els = document.querySelectorAll('.card[data-card-id="' + cardId + '"]');
+    for (var i = 0; i < els.length; i++) {
+      els[i].classList.remove("card-new");
+      var badge = els[i].querySelector(".card-new-badge");
+      if (badge) badge.remove();
+    }
+  },
+
+  observeNewCards: function (container) {
+    var self = this;
+    if (!container || !window.Save) return;
+    if (this._newCardObserver) {
+      this._newCardObserver.disconnect();
+    }
+
+    var pending = {};
+
+    this._newCardObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var el = entry.target;
+        var cardId = parseInt(el.getAttribute("data-card-id"), 10);
+        if (!cardId || !el.classList.contains("card-new")) return;
+
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.3) {
+          if (!pending[cardId]) {
+            pending[cardId] = setTimeout(function () {
+              delete pending[cardId];
+              self.markCardSeen(cardId);
+              self._newCardObserver.unobserve(el);
+            }, 300);
+          }
+        } else if (pending[cardId]) {
+          clearTimeout(pending[cardId]);
+          delete pending[cardId];
+        }
+      });
+    }, { threshold: [0, 0.3, 0.6] });
+
+    var cards = container.querySelectorAll(".card.card-new");
+    for (var i = 0; i < cards.length; i++) {
+      this._newCardObserver.observe(cards[i]);
+    }
   },
 
   /* ---------- Battle Playback ---------- */
@@ -842,9 +894,12 @@ window.UI = {
       }
       grid.appendChild(cardEl);
     });
+
+    this.observeNewCards(grid);
   },
 
   _showCardModal: function (card) {
+    this.markCardSeen(card.id);
     var content = document.getElementById("card-modal-content");
     content.innerHTML = "";
 

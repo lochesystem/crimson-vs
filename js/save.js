@@ -16,6 +16,7 @@ window.Save = {
       wins: 0,
       losses: 0,
       ownedCardIds: [],
+      unseenCardIds: [],
       deck: { generalId: null, unitIds: [null, null, null] },
       championBeaten: false,
       settings: { afkSpeed: "normal" },
@@ -68,6 +69,7 @@ window.Save = {
     d.wins = data.wins || 0;
     d.losses = data.losses || 0;
     d.ownedCardIds = Array.isArray(data.ownedCardIds) ? data.ownedCardIds.slice() : [];
+    d.unseenCardIds = Array.isArray(data.unseenCardIds) ? data.unseenCardIds.slice() : [];
     d.championBeaten = !!data.championBeaten;
     d.settings = data.settings || { afkSpeed: "normal" };
     if (!d.settings.afkSpeed) d.settings.afkSpeed = "normal";
@@ -136,6 +138,28 @@ window.Save = {
 
   getOwnedIds: function () {
     return this.get().ownedCardIds.slice();
+  },
+
+  markUnseen: function (cardId) {
+    var d = this.get();
+    if (!this.owns(cardId)) return;
+    if (d.unseenCardIds.indexOf(cardId) === -1) {
+      d.unseenCardIds.push(cardId);
+      this.save();
+    }
+  },
+
+  markSeen: function (cardId) {
+    var d = this.get();
+    var idx = d.unseenCardIds.indexOf(cardId);
+    if (idx !== -1) {
+      d.unseenCardIds.splice(idx, 1);
+      this.save();
+    }
+  },
+
+  isUnseen: function (cardId) {
+    return this.get().unseenCardIds.indexOf(cardId) !== -1;
   },
 
   setDeck: function (generalId, unitIds) {

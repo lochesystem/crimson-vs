@@ -36,7 +36,9 @@ window.Inventory = {
   },
 
   unlock: function (cardId) {
-    return Save.addOwned(cardId);
+    var isNew = Save.addOwned(cardId);
+    if (isNew) Save.markUnseen(cardId);
+    return isNew;
   },
 
   getOwnedCards: function () {
