@@ -102,15 +102,17 @@ crimson-vs/
 
 ## Card images
 
-The physical `.hack//G.U. Card Battle` product has **84 illustrated cards**. Crimson VS in-game has **150 cards**, so not every card has unique official art.
+The physical `.hack//G.U. Card Battle` product has **84 illustrated cards**. Crimson VS in-game has **150 cards**, so cards from Vol.3 (#111–150) reuse the closest matching character art.
 
-The game resolves images by:
+Each card is mapped to the correct **physical Card Battle number** (1–84) using the [Fandom wiki gallery](https://dothack.fandom.com/wiki/Card_Battle), matched by **card name** — not by character. For example:
 
-1. Matching the card's character to the physical card set (`card-images.js`)
-2. Using name aliases for generals (e.g. `Bo` → Sakubo, `Sophora` → Zelkova)
-3. Falling back to a styled character avatar when no image exists
+| Crimson VS card | Physical # | Wiki name |
+|-----------------|------------|-----------|
+| #40 Treasonous Self | 82 | Treasonous Self |
+| #82 Don't Kick!! | 48 | Don't kick it!! |
+| #67 Cat Punch!! | 46 | Neko-Neko Punch!! |
 
-Card images were sourced from the [Dot Hack Wiki](https://dothack.fandom.com/wiki/Card_Battle) for educational / fan use.
+The mapping lives in `js/card-images.js` (`imageByCardId`). Cards without a dedicated illustration fall back to a styled character avatar in the UI.
 
 ---
 
