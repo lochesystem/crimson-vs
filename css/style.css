@@ -1373,3 +1373,215 @@ input, select { font-family: var(--font-body); }
   .card-pool { flex: 0 0 auto; max-height: 55vh; }
   .deck-panel { flex: 1; }
 }
+
+/* ============================================
+   LOCKED CARDS
+   ============================================ */
+.card.locked {
+  opacity: 0.45;
+  filter: grayscale(0.85);
+  position: relative;
+}
+.card.locked .card-image-area::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 2;
+}
+.card-lock-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  font-family: var(--font-heading);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  color: var(--text-dim);
+  background: rgba(0,0,0,0.7);
+  padding: 4px 8px;
+  border: 1px solid rgba(255,255,255,0.15);
+  pointer-events: none;
+}
+
+/* ============================================
+   AFK MODE SCREEN
+   ============================================ */
+#screen-afk {
+  background: var(--bg);
+  flex-direction: column;
+}
+
+.afk-layout {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.afk-panel {
+  max-width: 560px;
+  width: 100%;
+  background: var(--bg-panel);
+  border: 1px solid rgba(0,212,255,0.12);
+  border-radius: 8px;
+  padding: 28px;
+}
+
+.afk-panel-title {
+  font-family: var(--font-heading);
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+
+.afk-desc {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.afk-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.afk-stat {
+  background: rgba(0,0,0,0.25);
+  padding: 10px 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.afk-stat-label {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+
+.afk-stat-value {
+  font-family: var(--font-heading);
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.afk-deck-info {
+  margin-bottom: 16px;
+  padding: 10px 12px;
+  background: rgba(0,212,255,0.05);
+  border-left: 3px solid var(--accent-dim);
+}
+
+.afk-deck-status {
+  display: block;
+  margin-top: 4px;
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.afk-controls {
+  margin-bottom: 20px;
+}
+
+.afk-speed-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+  letter-spacing: 0.06em;
+}
+
+.afk-speed-select {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg-surface);
+  border: 1px solid rgba(0,212,255,0.2);
+  color: var(--text);
+  font-family: var(--font-body);
+  border-radius: 4px;
+}
+
+.afk-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.afk-toast-area {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.afk-toast {
+  padding: 8px 12px;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  border-radius: 4px;
+  animation: logSlideIn 0.3s ease;
+}
+.afk-toast.win {
+  background: rgba(51,204,51,0.15);
+  border: 1px solid rgba(51,204,51,0.3);
+  color: var(--snipe);
+}
+.afk-toast.loss {
+  background: rgba(255,51,51,0.1);
+  border: 1px solid rgba(255,51,51,0.25);
+  color: var(--assault);
+}
+
+/* ============================================
+   AFK FLOAT WIDGET (PiP fallback)
+   ============================================ */
+.afk-float-widget {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  width: 280px;
+  background: rgba(10,10,20,0.95);
+  border: 1px solid var(--accent-dim);
+  border-radius: 8px;
+  padding: 12px 32px 12px 12px;
+  z-index: 500;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+.afk-float-widget.hidden { display: none; }
+.afk-float-widget .pip-title {
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+.afk-float-widget .pip-row {
+  font-size: 0.75rem;
+  color: var(--text);
+  margin: 3px 0;
+}
+.afk-float-widget .pip-drop { color: var(--gold); }
+.afk-widget-close {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.afk-widget-close:hover { color: var(--accent); }
+

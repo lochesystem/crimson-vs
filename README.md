@@ -15,21 +15,36 @@ Fan-made browser recreation of **Crimson VS**, the card battle minigame from `.h
 | **Trinity system** | Assault / Shield / Snipe with advantage cycle |
 | **Deck builder** | Filter by type, trinity, rarity; charisma validation |
 | **AI ranking** | Climb from Rank 50 to Rank 1; final boss Gaspard |
+| **AFK mode** | Auto-battles with configurable speed, booster pack drops, offline catch-up |
+| **Card collection** | Start with a basic deck; unlock cards by winning battles |
+| **PiP / widget** | Picture-in-Picture (Chrome/Edge) or floating widget for background play |
 | **Battle animations** | Phase banners, unit clashes, attack lunges, damage numbers, K.O. |
 | **Card art** | 84 physical Card Battle images from the wiki + generated avatars for the rest |
-| **Local saves** | Decks and rank progress stored in `localStorage` |
+| **Local saves** | Unified save (`crimsonvs_save`) with deck, rank, owned cards, AFK state |
 
 ---
 
 ## How to play
 
 1. Open the game (local file or GitHub Pages link above).
-2. Click **START**.
-3. Pick **1 General** and **3 Units** (total unit cost must not exceed the general's Charisma).
-4. Click **FIGHT** to battle the AI opponent.
-5. Win to climb the ranking ladder toward Rank 1.
+2. Click **START** for manual battles, or **AFK MODE** for automatic progression.
+3. Pick **1 General** and **3 Units** from your owned cards (charisma limit applies).
+4. Win battles to climb rank and unlock new cards from booster packs.
+5. In AFK mode, battles run on a timer (slow / normal / fast) while the tab stays open.
 
-### Battle phases
+### AFK mode
+
+Inspired by the original game: Crimson VS ran in the background on ALTIMIT Mine OS (~1 battle per minute). This version lets you choose:
+
+| Speed | Interval |
+|-------|----------|
+| Slow | 60 seconds |
+| Normal | 30 seconds |
+| Fast | 10 seconds |
+
+Wins grant a random new card (weighted by rank). Duplicates are ignored in v1. Use **OPEN PiP** for a mini window (Chrome/Edge) or a floating widget in other browsers.
+
+### Battle phases (manual mode)
 
 1. **Delta Combo** — If your 3 units share a character combo, a bonus effect may activate (AP/HP changes, cost modifiers, cancel enemy combo, etc.).
 2. **Unit Battle** — Each unit slot is compared (Trinity advantage, then cost). Winners become **Junction** cards for their general.
@@ -78,9 +93,19 @@ crimson-vs/
 │   ├── delta-combos.js # 33 Delta Combo definitions
 │   ├── junction-engine.js  # ~70 Junction Ability effects
 │   ├── battle-engine.js    # Full battle simulation
+│   ├── save.js             # Unified localStorage save
+│   ├── inventory.js        # Owned cards & starter deck
+│   ├── progression.js      # Booster pack drops by rank
+│   ├── afk.js              # Auto-battle loop & catch-up
+│   ├── pip.js              # Picture-in-Picture / float widget
 │   ├── deck-builder.js     # Deck UI and validation
 │   ├── ai.js               # Opponent decks and ranking
 │   └── ui.js               # Screens, card rendering, battle playback
+├── scripts/
+│   └── validate.js         # CI smoke tests
+├── .github/workflows/
+│   ├── ci.yml              # PR validation
+│   └── deploy-pages.yml    # Deploy on merge to main
 └── img/
     └── cards/          # 84 card images (physical Card Battle set)
 ```
@@ -144,6 +169,21 @@ The **source code** in this repository is provided for learning and fan use. **G
 ---
 
 ## Contributing
+
+### Development workflow
+
+1. Create a branch: `git checkout -b feature/my-change`
+2. Make changes and run validation: `node scripts/validate.js`
+3. Open a Pull Request to `main`
+4. CI runs automatically on the PR
+5. After review and merge, **GitHub Actions deploys to Pages**
+
+### GitHub setup (repository admin)
+
+1. **Settings → Pages → Build and deployment:** set source to **GitHub Actions**
+2. **Settings → Branches:** protect `main` — require PR and passing `CI` check before merge
+
+### What to contribute
 
 Issues and pull requests are welcome for:
 

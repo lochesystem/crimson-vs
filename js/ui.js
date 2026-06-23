@@ -84,6 +84,7 @@ window.UI = {
     var clickable = options.clickable !== false;
     var selected = options.selected || false;
     var faceDown = options.faceDown || false;
+    var locked = options.locked || false;
 
     var el = document.createElement("div");
     el.className = "card";
@@ -93,6 +94,7 @@ window.UI = {
     el.classList.add("rarity-" + card.rarity);
     if (size === "large") el.classList.add("card-large");
     if (selected) el.classList.add("selected");
+    if (locked) el.classList.add("locked");
     if (!clickable) el.style.cursor = "default";
     if (faceDown) el.classList.add("face-down");
 
@@ -132,7 +134,8 @@ window.UI = {
       '<div class="card-stats">' + statsHtml + "</div>" +
       (card.junctionAbilityName
         ? '<div class="card-ability" title="' + card.junctionAbilityName + '">' + card.junctionAbilityName + "</div>"
-        : "");
+        : "") +
+      (locked ? '<div class="card-lock-overlay">LOCKED</div>' : "");
 
     return el;
   },
@@ -726,6 +729,20 @@ window.UI = {
     }
     document.getElementById("result-units-won").textContent = unitsWon + " / " + (battleResult.unitBattleResults ? battleResult.unitBattleResults.length : 0);
     document.getElementById("result-rank").textContent = window.AI ? AI.playerRank : "—";
+
+    var dropRow = document.getElementById("result-drop-row");
+    var dropEl = document.getElementById("result-drop");
+    if (dropRow && dropEl && battleResult.winner === "player" && window.Save) {
+      var drop = Save.get().lastDrop;
+      if (drop) {
+        dropRow.style.display = "";
+        dropEl.textContent = (drop.isNew ? "NEW: " : "") + drop.name;
+      } else {
+        dropRow.style.display = "none";
+      }
+    } else if (dropRow) {
+      dropRow.style.display = "none";
+    }
   },
 
   /* ---------- Title Screen Bindings ---------- */
@@ -734,6 +751,11 @@ window.UI = {
 
     document.getElementById("btn-start").addEventListener("click", function () {
       self.showScreen("deck-builder");
+    });
+
+    document.getElementById("btn-afk-mode").addEventListener("click", function () {
+      if (window.AFK) AFK.onScreenOpen();
+      self.showScreen("afk");
     });
 
     document.getElementById("btn-collection").addEventListener("click", function () {
@@ -805,15 +827,19 @@ window.UI = {
       return true;
     });
 
-    document.getElementById("collection-total").textContent = allCards.length;
+    document.getElementById("collection-total").textContent =
+      (window.Inventory ? Inventory.getOwnedCount() : allCards.length) + " / " + allCards.length;
 
     var grid = document.getElementById("collection-grid");
     grid.innerHTML = "";
     var self = this;
 
     filtered.forEach(function (card) {
-      var cardEl = self.renderCard(card, { size: "small", clickable: true });
-      cardEl.addEventListener("click", function () { self._showCardModal(card); });
+      var owned = !window.Inventory || Inventory.owns(card.id);
+      var cardEl = self.renderCard(card, { size: "small", clickable: owned, locked: !owned });
+      if (owned) {
+        cardEl.addEventListener("click", function () { self._showCardModal(card); });
+      }
       grid.appendChild(cardEl);
     });
   },

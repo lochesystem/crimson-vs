@@ -8,6 +8,13 @@ window.AI = {
 
   /* ---------- Initialization ---------- */
   init: function () {
+    if (window.Save) {
+      var d = Save.get();
+      this.playerRank = typeof d.rank === "number" ? d.rank : 50;
+      this.wins = d.wins || 0;
+      this.losses = d.losses || 0;
+      return;
+    }
     try {
       var data = localStorage.getItem("crimsonvs_ai");
       if (data) {
@@ -20,6 +27,10 @@ window.AI = {
   },
 
   _save: function () {
+    if (window.Save) {
+      Save.setRank(this.playerRank, this.wins, this.losses);
+      return;
+    }
     try {
       localStorage.setItem("crimsonvs_ai", JSON.stringify({
         rank: this.playerRank,
