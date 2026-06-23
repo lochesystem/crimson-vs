@@ -1406,6 +1406,32 @@ input, select { font-family: var(--font-body); }
   pointer-events: none;
 }
 
+/* NEW card badge (unseen unlocks) */
+.card.card-new {
+  box-shadow: 0 0 12px rgba(255,215,0,0.35);
+}
+.card-new-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  z-index: 6;
+  font-family: var(--font-heading);
+  font-size: 0.55rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #1a1400;
+  background: linear-gradient(135deg, #ffd700, #ffaa00);
+  padding: 2px 6px;
+  border-radius: 3px;
+  box-shadow: 0 0 8px rgba(255,215,0,0.6);
+  pointer-events: none;
+  animation: newBadgePulse 1.5s ease infinite;
+}
+@keyframes newBadgePulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 8px rgba(255,215,0,0.6); }
+  50% { transform: scale(1.08); box-shadow: 0 0 14px rgba(255,215,0,0.9); }
+}
+
 /* ============================================
    AFK MODE SCREEN
    ============================================ */
@@ -1551,7 +1577,7 @@ input, select { font-family: var(--font-body); }
   position: fixed;
   bottom: 16px;
   right: 16px;
-  width: 280px;
+  width: 300px;
   background: rgba(10,10,20,0.95);
   border: 1px solid var(--accent-dim);
   border-radius: 8px;
@@ -1565,14 +1591,224 @@ input, select { font-family: var(--font-body); }
   font-size: 0.7rem;
   color: var(--accent);
   letter-spacing: 0.1em;
+  margin-bottom: 6px;
+}
+.afk-float-widget .pip-stage {
+  position: relative;
+  height: 120px;
   margin-bottom: 8px;
+  background: rgba(0,0,0,0.4);
+  border: 1px solid var(--accent-dim);
+  border-radius: 6px;
+  overflow: hidden;
 }
 .afk-float-widget .pip-row {
   font-size: 0.75rem;
   color: var(--text);
-  margin: 3px 0;
+  margin: 2px 0;
 }
 .afk-float-widget .pip-drop { color: var(--gold); }
+
+/* PiP stage animations (widget; PiP window injects same rules) */
+.pip-phase-banner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.6);
+  opacity: 0;
+  white-space: nowrap;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  color: #fff;
+  text-shadow: 0 0 12px rgba(0,212,255,0.8);
+  animation: pipPhaseIn 0.8s ease forwards;
+  z-index: 5;
+}
+.pip-mini-clash {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.pip-mini-card {
+  width: 52px;
+  height: 72px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 2px solid var(--accent);
+  background: var(--bg-card);
+}
+.pip-mini-card.enemy { border-color: var(--assault); }
+.pip-mini-card img { width: 100%; height: 100%; object-fit: cover; }
+.pip-mini-card .pip-mini-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 8px;
+  text-align: center;
+  padding: 4px;
+  color: var(--text-dim);
+}
+.pip-mini-card.left { animation: pipClashSlideL 0.4s ease forwards; }
+.pip-mini-card.right { animation: pipClashSlideR 0.4s ease forwards; }
+.pip-mini-vs {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 0 8px rgba(255,255,255,0.6);
+  animation: pipVsFlash 0.5s ease;
+}
+.pip-result {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  opacity: 0;
+  animation: pipWinFlash 0.6s ease forwards;
+  z-index: 6;
+}
+.pip-result.win {
+  color: var(--snipe);
+  text-shadow: 0 0 16px rgba(51,204,51,0.8);
+}
+.pip-result.loss {
+  color: var(--assault);
+  text-shadow: 0 0 16px rgba(255,51,51,0.8);
+}
+.pip-drop-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  pointer-events: none;
+  z-index: 7;
+}
+.pip-drop-card {
+  width: 56px;
+  height: 78px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 2px solid var(--gold);
+  box-shadow: 0 0 16px rgba(255,215,0,0.6);
+  animation: pipFloatUp 1.4s ease forwards;
+  margin-bottom: 8px;
+}
+.pip-drop-card img { width: 100%; height: 100%; object-fit: cover; }
+.pip-drop-label {
+  font-family: var(--font-heading);
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: var(--gold);
+  letter-spacing: 0.12em;
+  animation: pipFloatUp 1.4s ease forwards;
+  text-shadow: 0 0 8px rgba(255,215,0,0.8);
+}
+@keyframes pipPhaseIn {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+  30% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.1); }
+}
+@keyframes pipClashSlideL {
+  from { transform: translateX(-60px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes pipClashSlideR {
+  from { transform: translateX(60px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes pipVsFlash {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+@keyframes pipWinFlash {
+  0% { opacity: 0; transform: scale(0.5); }
+  40% { opacity: 1; transform: scale(1.1); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes pipFloatUp {
+  0% { opacity: 0; transform: translateY(40px) scale(0.7); }
+  20% { opacity: 1; transform: translateY(0) scale(1); }
+  80% { opacity: 1; transform: translateY(-20px) scale(1); }
+  100% { opacity: 0; transform: translateY(-50px) scale(0.9); }
+}
+
+/* PiP idle countdown between battles */
+.pip-idle {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.pip-countdown-ring {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: conic-gradient(var(--accent) calc(var(--progress, 0) * 1%), rgba(0,212,255,0.12) 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pip-countdown-ring::before {
+  content: "";
+  position: absolute;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #0a0a14;
+}
+.pip-countdown-time {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.05em;
+}
+.pip-countdown-label {
+  font-family: var(--font-heading);
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  animation: pipScanPulse 2s ease infinite;
+}
+.pip-idle-paused .pip-countdown-label,
+.pip-idle-waiting .pip-countdown-label {
+  animation: none;
+}
+.pip-paused-icon {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text-dim);
+  letter-spacing: 2px;
+}
+.pip-idle-sync .pip-countdown-label {
+  color: var(--accent);
+}
+@keyframes pipScanPulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
 .afk-widget-close {
   position: absolute;
   top: 6px;

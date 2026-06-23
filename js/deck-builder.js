@@ -52,6 +52,7 @@ window.DeckBuilder = {
 
       cardEl.addEventListener("click", function () {
         if (isDisabled) return;
+        if (window.UI) UI.markCardSeen(card.id);
         if (card.type === "general") {
           self.selectGeneral(card);
         } else {
@@ -66,6 +67,8 @@ window.DeckBuilder = {
 
       grid.appendChild(cardEl);
     });
+
+    if (window.UI) UI.observeNewCards(grid);
   },
 
   _getFilteredCards: function () {
