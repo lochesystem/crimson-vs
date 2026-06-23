@@ -1,0 +1,188 @@
+window.CardsData = {
+  generals: [
+    // Vol.2 Generals (#001-025) - No junction abilities
+    { id: 1, name: "Haseo at Dawn", nameJp: "黎明のハセヲ", type: "general", junctionAbility: null, junctionAbilityName: null, charisma: 12, hp: 16, ap: 3, trinity: "assault", rarity: "ultra-rare" },
+    { id: 2, name: "Kite", nameJp: "カイト", type: "general", junctionAbility: null, junctionAbilityName: null, charisma: 10, hp: 16, ap: 3, trinity: "assault", rarity: "super-rare" },
+    { id: 3, name: "Haseo the Black Rogue", nameJp: "黒衣の錬装士ハセヲ", type: "general", junctionAbility: null, junctionAbilityName: null, charisma: 9, hp: 16, ap: 4, trinity: "assault", rarity: "super-rare" },
+    { id: 4, name: "BlackRose", nameJp: "ブラックローズ", type: "general", junctionAbility: null, junctionAbilityName: null, charisma: 11, hp: 11, ap: 3, trinity: "assault", rarity: "rare" },
+    { id: 5, name: "Haseo the Terror of Death", nameJp: "死の恐怖ハセヲ", type: "general", junctionAbility: null, junctionAbilityName: null, charisma: 6, hp: 20, ap: 4, trinity: "assault", rarity: "rare" },
+    { id: 6, name: "Pi - Raven", nameJp: "レイヴン パイ", type: "general", junctionAbility: null, junctionAbilityName: null, charisma: 8, hp: 17, ap: 3, trinity: "assault", rarity: "common" },
+    { id: 7, name: "Balmung", nameJp: "バルムンク", type: "general", junctionAbility: null, junctionAbilityName: null, charisma: 7, hp: 15, ap: 4, trinity: "assault", rarity: "common" },
+    { id: 8, name: "Tabby - Twilight Brigade", nameJp: "黄昏の旅団 タビー", type: "general", junctionAbility: null, junctionAbilityName: null, charisma: 12, hp: 14, ap: 1, trinity: "assault", rarity: "common" },
+    { id: 9, name: "Degenerating Haseo", nameJp: "堕とされしハセヲ", type: "general", junctionAbility: null, junctionAbilityName: null, charisma: 7, hp: 23, ap: 2, trinity: "assault", rarity: "common" },
+    { id: 10, name: "Shino - Twilight Brigade", nameJp: "黄昏の旅団 志乃", type: "general", junctionAbility: null, junctionAbilityName: null, charisma: 14, hp: 16, ap: 2, trinity: "shield", rarity: "ultra-rare" },
+    { id: 11, name: "Sakisaka - Twilight Brigade", nameJp: "黄昏の旅団 匂坂", type: "general", junctionAbility: null, junctionAbilityName: null, charisma: 10, hp: 20, ap: 2, trinity: "shield", rarity: "ultra-rare" },
+    { id: 12, name: "Haseo Counterattacks", nameJp: "反撃のハセヲ", type: "general", junctionAbility: null, junctionAbilityName: null, charisma: 8, hp: 23, ap: 3, trinity: "shield", rarity: "super-rare" },
+    { id: 13, name: "Gaspard - Canard", nameJp: "カナード ガスパー", type: "general", junctionAbility: null, junctionAbilityName: null, charisma: 11, hp: 15, ap: 2, trinity: "shield", rarity: "rare" },
+    { id: 14, name: "Atoli - Moon Tree", nameJp: "月の樹 アトリ", type: "general", junctionAbility: null, junctionAbilityName: null, charisma: 10, hp: 17, ap: 2, trinity: "shield", rarity: "rare" },
+    { id: 15, name: "Sakubo - Trifle", nameJp: "トライフル 朔望", type: "general", junctionAbility: null, junctionAbilityName: null, charisma: 10, hp: 10, ap: 2, trinity: "shield", rarity: "common" },
+    { id: 16, name: "Orca", nameJp: "オルカ", type: "general", junctionAbility: null, junctionAbilityName: null, charisma: 9, hp: 11, ap: 4, trinity: "shield", rarity: "common" },
+    { id: 17, name: "Raid of New Punishers", nameJp: "新米撃剣士レイド", type: "general", junctionAbility: null, junctionAbilityName: null, charisma: 6, hp: 29, ap: 1, trinity: "shield", rarity: "common" },
+    { id: 18, name: "Ovan the Wanderer", nameJp: "流雄のオーヴァン", type: "general", junctionAbility: null, junctionAbilityName: null, charisma: 12, hp: 12, ap: 4, trinity: "snipe", rarity: "ultra-rare" },
+    { id: 19, name: "Tri-Edge", nameJp: "三爪痕", type: "general", junctionAbility: null, junctionAbilityName: null, charisma: 5, hp: 25, ap: 5, trinity: "snipe", rarity: "super-rare" },
+    { id: 20, name: "Endrance the Exquisite", nameJp: "麗のエンデュランス", type: "general", junctionAbility: null, junctionAbilityName: null, charisma: 13, hp: 10, ap: 3, trinity: "snipe", rarity: "super-rare" },
+    { id: 21, name: "Kuhn - Raven", nameJp: "レイヴン クーン", type: "general", junctionAbility: null, junctionAbilityName: null, charisma: 12, hp: 10, ap: 2, trinity: "snipe", rarity: "rare" },
+    { id: 22, name: "Bordeaux the Mad Blade", nameJp: "凶刃のボルドー", type: "general", junctionAbility: null, junctionAbilityName: null, charisma: 8, hp: 24, ap: 2, trinity: "snipe", rarity: "rare" },
+    { id: 23, name: "Ovan the Twilight", nameJp: "黄昏の徒オーヴァン", type: "general", junctionAbility: null, junctionAbilityName: null, charisma: 11, hp: 8, ap: 3, trinity: "snipe", rarity: "common" },
+    { id: 24, name: "Mistral", nameJp: "ミストラル", type: "general", junctionAbility: null, junctionAbilityName: null, charisma: 10, hp: 14, ap: 1, trinity: "snipe", rarity: "common" },
+    { id: 25, name: "Silabus - Canard", nameJp: "カナード シラバス", type: "general", junctionAbility: null, junctionAbilityName: null, charisma: 9, hp: 18, ap: 2, trinity: "snipe", rarity: "common" },
+
+    // Vol.3 Generals (#086-110) - Have junction abilities
+    { id: 86, name: "Haseo the Silver Dual Gunner", nameJp: "白銀の双銃士ハセヲ", type: "general", junctionAbility: "shooting_squad", junctionAbilityName: "Shooting Squad", charisma: 12, hp: 14, ap: 3, trinity: "assault", rarity: "ultra-rare" },
+    { id: 87, name: "Bordeaux in Distress", nameJp: "闇に溺れしボルドー", type: "general", junctionAbility: "aida_berserk", junctionAbilityName: "AIDA Berserk", charisma: 6, hp: 22, ap: 4, trinity: "assault", rarity: "ultra-rare" },
+    { id: 88, name: "Alkaid - Icolo", nameJp: "イコロ揺光", type: "general", junctionAbility: "emperors_pride", junctionAbilityName: "Emperor's Pride", charisma: 10, hp: 12, ap: 3, trinity: "assault", rarity: "super-rare" },
+    { id: 89, name: "Cold-Hearted Saku", nameJp: "他を排せし朔", type: "general", junctionAbility: "aida_corrosion", junctionAbilityName: "AIDA Corrosion", charisma: 12, hp: 16, ap: 2, trinity: "assault", rarity: "super-rare" },
+    { id: 90, name: "Kaede - Moon Tree", nameJp: "月の樹 楓", type: "general", junctionAbility: "whirlwind_assault", junctionAbilityName: "Whirlwind Assault", charisma: 10, hp: 14, ap: 2, trinity: "assault", rarity: "rare" },
+    { id: 91, name: "Sirius - Icolo", nameJp: "イコロ 天狼", type: "general", junctionAbility: "emperors_pride", junctionAbilityName: "Emperor's Pride", charisma: 9, hp: 10, ap: 3, trinity: "assault", rarity: "rare" },
+    { id: 92, name: "Sophora - Moon Tree", nameJp: "月の樹 槐", type: "general", junctionAbility: "mobilize_troops", junctionAbilityName: "Mobilize the Troops", charisma: 6, hp: 8, ap: 4, trinity: "assault", rarity: "common" },
+    { id: 93, name: "Twilight Knight Piros the 3rd", nameJp: "黄金騎士ぴろし3", type: "general", junctionAbility: "cross_counter", junctionAbilityName: "Cross Counter", charisma: 8, hp: 12, ap: 2, trinity: "assault", rarity: "common" },
+    { id: 94, name: "Beast Awakening Haseo", nameJp: "武獣覚醒 ハセヲ", type: "general", junctionAbility: "charge_ahead", junctionAbilityName: "Charge Ahead", charisma: 9, hp: 18, ap: 2, trinity: "assault", rarity: "common" },
+    { id: 95, name: "Zelkova - Moon Tree", nameJp: "月の樹 欅", type: "general", junctionAbility: "kaedes_guard", junctionAbilityName: "Kaede's Guard", charisma: 15, hp: 17, ap: 0, trinity: "shield", rarity: "ultra-rare" },
+    { id: 96, name: "Sakaki Lost in Ambition", nameJp: "野望に身を委ねし榊", type: "general", junctionAbility: "aida_berserk", junctionAbilityName: "AIDA Berserk", charisma: 8, hp: 18, ap: 4, trinity: "shield", rarity: "ultra-rare" },
+    { id: 97, name: "Azure Orca", nameJp: "蒼海のオルカ", type: "general", junctionAbility: "defensive_stance", junctionAbilityName: "Defensive Stance", charisma: 6, hp: 16, ap: 4, trinity: "shield", rarity: "super-rare" },
+    { id: 98, name: "Avatar Awakening Haseo", nameJp: "神威覚醒 ハセヲ", type: "general", junctionAbility: "gathering_strong", junctionAbilityName: "Gathering of the Strong", charisma: 11, hp: 10, ap: 3, trinity: "shield", rarity: "super-rare" },
+    { id: 99, name: "Yata - Raven", nameJp: "レイブン 八咫", type: "general", junctionAbility: "ingenious_scheme", junctionAbilityName: "Ingenious Scheme", charisma: 10, hp: 12, ap: 2, trinity: "shield", rarity: "rare" },
+    { id: 100, name: "Bo - Trifle", nameJp: "トライフル 望", type: "general", junctionAbility: "defensive_stance", junctionAbilityName: "Defensive Stance", charisma: 12, hp: 12, ap: 1, trinity: "shield", rarity: "rare" },
+    { id: 101, name: "Sakaki - Moon Tree", nameJp: "月の樹 榊", type: "general", junctionAbility: "shield_protection", junctionAbilityName: "Shield Protection", charisma: 12, hp: 8, ap: 1, trinity: "shield", rarity: "common" },
+    { id: 102, name: "Hiiragi - Moon Tree", nameJp: "月の樹 柊", type: "general", junctionAbility: "mobilize_troops", junctionAbilityName: "Mobilize the Troops", charisma: 11, hp: 14, ap: 1, trinity: "shield", rarity: "common" },
+    { id: 103, name: "Tri-Edge Ovan", nameJp: "三爪痕オーヴァン", type: "general", junctionAbility: "aida_berserk", junctionAbilityName: "AIDA Berserk", charisma: 7, hp: 20, ap: 6, trinity: "snipe", rarity: "ultra-rare" },
+    { id: 104, name: "Gabi - Kestrel", nameJp: "ケストレルがび", type: "general", junctionAbility: "gabis_call", junctionAbilityName: "Gabi's Call", charisma: 11, hp: 16, ap: 4, trinity: "snipe", rarity: "ultra-rare" },
+    { id: 105, name: "Azure Balmung", nameJp: "蒼天のバルムンク", type: "general", junctionAbility: "charge_ahead", junctionAbilityName: "Charge Ahead", charisma: 6, hp: 12, ap: 5, trinity: "snipe", rarity: "super-rare" },
+    { id: 106, name: "Card King Gaspard", nameJp: "カード王 ガスパー", type: "general", junctionAbility: "change_ring", junctionAbilityName: "Change Ring", charisma: 12, hp: 12, ap: 2, trinity: "snipe", rarity: "super-rare" },
+    { id: 107, name: "Taihaku - Icolo", nameJp: "イコロ 太白", type: "general", junctionAbility: "demon_sword_maxwell", junctionAbilityName: "Demon Sword Maxwell", charisma: 7, hp: 10, ap: 4, trinity: "snipe", rarity: "rare" },
+    { id: 108, name: "Antares - Icolo", nameJp: "イコロ 大火", type: "general", junctionAbility: "emperors_pride", junctionAbilityName: "Emperor's Pride", charisma: 8, hp: 12, ap: 3, trinity: "snipe", rarity: "rare" },
+    { id: 109, name: "Nala - Moon Tree", nameJp: "月の樹 楢", type: "general", junctionAbility: "promised_discretion", junctionAbilityName: "Promised Discretion", charisma: 9, hp: 10, ap: 2, trinity: "snipe", rarity: "common" },
+    { id: 110, name: "Matsu - Moon Tree", nameJp: "月の樹 松", type: "general", junctionAbility: "snipe_thunder", junctionAbilityName: "Snipe Thunder", charisma: 7, hp: 10, ap: 3, trinity: "snipe", rarity: "common" }
+  ],
+
+  units: [
+    // Vol.2 Assault Units (#026-045)
+    { id: 26, name: "Kappa Rappa Kappa", nameJp: "かっぱらっぱ", type: "unit", junctionAbility: "whirlwind_assault", junctionAbilityName: "Whirlwind Assault", character: "Piros", cost: 1, trinity: "assault", rarity: "common" },
+    { id: 27, name: "Bamyon!", nameJp: "ぱみょん！", type: "unit", junctionAbility: "minds_eye", junctionAbilityName: "Mind's Eye", character: "Sora", cost: 1, trinity: "assault", rarity: "common" },
+    { id: 28, name: "What Was That?!", nameJp: "なんですと！", type: "unit", junctionAbility: "quick_lightning", junctionAbilityName: "Quick Lightning", character: "Mimiru", cost: 2, trinity: "assault", rarity: "common" },
+    { id: 29, name: "Climactic Theory", nameJp: "絶壁のセオリー", type: "unit", junctionAbility: "whirlwind_assault", junctionAbilityName: "Whirlwind Assault", character: "Alkaid", cost: 2, trinity: "assault", rarity: "common" },
+    { id: 30, name: "The Trinity", nameJp: "三位一体", type: "unit", junctionAbility: "charge_ahead", junctionAbilityName: "Charge Ahead", character: "Haseo", cost: 2, trinity: "assault", rarity: "common" },
+    { id: 31, name: "March of Destruction", nameJp: "破軍の行進", type: "unit", junctionAbility: "vengeful_arrow", junctionAbilityName: "Vengeful Arrow", character: "Bordeaux", cost: 2, trinity: "assault", rarity: "common" },
+    { id: 32, name: "Falling Flag", nameJp: "倒れゆく御旗", type: "unit", junctionAbility: "momentary_glory", junctionAbilityName: "Momentary Glory", character: "Antares", cost: 2, trinity: "assault", rarity: "common" },
+    { id: 33, name: "Fearful Shino", nameJp: "志乃恐怖", type: "unit", junctionAbility: "sinister_poison_arrow", junctionAbilityName: "Sinister Poison Arrow", character: "Shino", cost: 3, trinity: "assault", rarity: "common" },
+    { id: 34, name: "Time of Peace", nameJp: null, type: "unit", junctionAbility: "whirlwind_assault", junctionAbilityName: "Whirlwind Assault", character: "Sakubo", cost: 3, trinity: "assault", rarity: "rare" },
+    { id: 35, name: "Unreaching Blade", nameJp: null, type: "unit", junctionAbility: "minds_eye", junctionAbilityName: "Mind's Eye", character: "Midori", cost: 3, trinity: "assault", rarity: "rare" },
+    { id: 36, name: "Black Rose of Insight", nameJp: null, type: "unit", junctionAbility: "charge_ahead", junctionAbilityName: "Charge Ahead", character: "BlackRose", cost: 4, trinity: "assault", rarity: "rare" },
+    { id: 37, name: "Passing Through", nameJp: null, type: "unit", junctionAbility: "quick_lightning", junctionAbilityName: "Quick Lightning", character: "Sakubo", cost: 4, trinity: "assault", rarity: "rare" },
+    { id: 38, name: "Iron Fist of Anger", nameJp: null, type: "unit", junctionAbility: "hammer_of_undoing", junctionAbilityName: "Hammer of Undoing", character: "Kuhn", cost: 4, trinity: "assault", rarity: "rare" },
+    { id: 39, name: "Unyielding Sparks", nameJp: null, type: "unit", junctionAbility: "merciless_light", junctionAbilityName: "Merciless Light", character: "Pi", cost: 4, trinity: "assault", rarity: "rare" },
+    { id: 40, name: "Treasonous Self", nameJp: null, type: "unit", junctionAbility: "divine_punishment", junctionAbilityName: "Divine Punishment", character: "Haseo", cost: 5, trinity: "assault", rarity: "rare" },
+    { id: 41, name: "Thirst for Justice", nameJp: null, type: "unit", junctionAbility: "price_of_insight", junctionAbilityName: "Price of Insight", character: "Kuhn", cost: 4, trinity: "assault", rarity: "super-rare" },
+    { id: 42, name: "Flame of Consumption", nameJp: null, type: "unit", junctionAbility: "divine_punishment", junctionAbilityName: "Divine Punishment", character: "Azure Kite", cost: 6, trinity: "assault", rarity: "super-rare" },
+    { id: 43, name: "Decapitation of Oath", nameJp: null, type: "unit", junctionAbility: "demonic_spear", junctionAbilityName: "Demonic Spear", character: "Azure Kite", cost: 7, trinity: "assault", rarity: "super-rare" },
+    { id: 44, name: "\"She\"", nameJp: null, type: "unit", junctionAbility: "estranged_self", junctionAbilityName: "Estranged Self", character: "Endrance", cost: 6, trinity: "assault", rarity: "ultra-rare" },
+    { id: 45, name: "Baptism of Smiles", nameJp: null, type: "unit", junctionAbility: "border_of_zero", junctionAbilityName: "Border of Zero", character: "Ovan", cost: 7, trinity: "assault", rarity: "ultra-rare" },
+
+    // Vol.2 Shield Units (#046-065)
+    { id: 46, name: "Wrath of Logos", nameJp: null, type: "unit", junctionAbility: "shield_protection", junctionAbilityName: "Shield Protection", character: "Pi", cost: 1, trinity: "shield", rarity: "common" },
+    { id: 47, name: "Young Girl's Path", nameJp: null, type: "unit", junctionAbility: "vitality_medicine", junctionAbilityName: "Vitality Medicine", character: "Terajima Ryoko", cost: 1, trinity: "shield", rarity: "common" },
+    { id: 48, name: "Azure Sea's Laugh", nameJp: null, type: "unit", junctionAbility: "energy_genome", junctionAbilityName: "Energy Genome", character: "Orca", cost: 1, trinity: "shield", rarity: "common" },
+    { id: 49, name: "Voluntary Trust", nameJp: null, type: "unit", junctionAbility: "spirit_clothes", junctionAbilityName: "Spirit Clothes", character: "Sakaki", cost: 2, trinity: "shield", rarity: "common" },
+    { id: 50, name: "Come Back Alive", nameJp: null, type: "unit", junctionAbility: "clenching_teeth", junctionAbilityName: "Clenching Teeth", character: "Silabus", cost: 2, trinity: "shield", rarity: "common" },
+    { id: 51, name: "Aurora Gaze", nameJp: null, type: "unit", junctionAbility: "shield_protection", junctionAbilityName: "Shield Protection", character: "Kite", cost: 2, trinity: "shield", rarity: "common" },
+    { id: 52, name: "Refrain of Shadows", nameJp: null, type: "unit", junctionAbility: "grief_of_comrade", junctionAbilityName: "Grief of Comrade", character: "Yata", cost: 2, trinity: "shield", rarity: "common" },
+    { id: 53, name: "Coppelia's Repose", nameJp: null, type: "unit", junctionAbility: "anus_karma", junctionAbilityName: "Anu's Karma", character: "Elk", cost: 3, trinity: "shield", rarity: "common" },
+    { id: 54, name: "Rival Spirits", nameJp: null, type: "unit", junctionAbility: "warning_harmony", junctionAbilityName: "Warning Harmony", character: "Sakubo", cost: 3, trinity: "shield", rarity: "rare" },
+    { id: 55, name: "A Time To Love", nameJp: null, type: "unit", junctionAbility: "shield_protection", junctionAbilityName: "Shield Protection", character: "Gaspard", cost: 3, trinity: "shield", rarity: "rare" },
+    { id: 56, name: "With My Brother", nameJp: null, type: "unit", junctionAbility: "spirit_clothes", junctionAbilityName: "Spirit Clothes", character: "Sakubo", cost: 3, trinity: "shield", rarity: "rare" },
+    { id: 57, name: "Shadow of Memories", nameJp: null, type: "unit", junctionAbility: "vitality_medicine", junctionAbilityName: "Vitality Medicine", character: "Atoli", cost: 4, trinity: "shield", rarity: "rare" },
+    { id: 58, name: "Freedom to Imagine", nameJp: null, type: "unit", junctionAbility: "anus_karma", junctionAbilityName: "Anu's Karma", character: "Gaspard", cost: 4, trinity: "shield", rarity: "rare" },
+    { id: 59, name: "Healing Waves", nameJp: null, type: "unit", junctionAbility: "immortal_genome", junctionAbilityName: "Immortal Genome", character: "Atoli", cost: 4, trinity: "shield", rarity: "rare" },
+    { id: 60, name: "Ace of Hearts", nameJp: null, type: "unit", junctionAbility: "verboten_libation", junctionAbilityName: "Verboten Libation", character: "Atoli", cost: 5, trinity: "shield", rarity: "rare" },
+    { id: 61, name: "Invisible", nameJp: null, type: "unit", junctionAbility: "veil_of_aura", junctionAbilityName: "Veil of Aura", character: "Haseo", cost: 6, trinity: "shield", rarity: "super-rare" },
+    { id: 62, name: "Restraint of Discipline", nameJp: null, type: "unit", junctionAbility: "filling_hollow", junctionAbilityName: "Filling Hollow", character: "Pi", cost: 5, trinity: "shield", rarity: "super-rare" },
+    { id: 63, name: "No More Loss", nameJp: null, type: "unit", junctionAbility: "warning_harmony", junctionAbilityName: "Warning Harmony", character: "Haseo", cost: 6, trinity: "shield", rarity: "super-rare" },
+    { id: 64, name: "Melody Pursuer", nameJp: null, type: "unit", junctionAbility: "time_torrent", junctionAbilityName: "Time Torrent", character: "Mai Minase", cost: 6, trinity: "shield", rarity: "ultra-rare" },
+    { id: 65, name: "Impenetrable Barrier", nameJp: null, type: "unit", junctionAbility: "mirror_of_revenge", junctionAbilityName: "Mirror of Revenge", character: "Shino", cost: 7, trinity: "shield", rarity: "ultra-rare" },
+
+    // Vol.2 Snipe Units (#066-085)
+    { id: 66, name: "Unstoppable Resolve", nameJp: null, type: "unit", junctionAbility: "snipe_thunder", junctionAbilityName: "Snipe Thunder", character: "Kaede", cost: 1, trinity: "snipe", rarity: "common" },
+    { id: 67, name: "Cat Punch!!", nameJp: null, type: "unit", junctionAbility: "fire_fang", junctionAbilityName: "Fire Fang", character: "Tabby", cost: 1, trinity: "snipe", rarity: "common" },
+    { id: 68, name: "Bird in a Cage", nameJp: null, type: "unit", junctionAbility: "energy_drain", junctionAbilityName: "Energy Drain", character: "Sakaki", cost: 1, trinity: "snipe", rarity: "common" },
+    { id: 69, name: "Master Subaru!", nameJp: null, type: "unit", junctionAbility: "folsets_trial", junctionAbilityName: "Folset's Trial", character: "Silver Knight", cost: 2, trinity: "snipe", rarity: "common" },
+    { id: 70, name: "Jackpot", nameJp: null, type: "unit", junctionAbility: "snipe_thunder", junctionAbilityName: "Snipe Thunder", character: "Kuhn", cost: 2, trinity: "snipe", rarity: "common" },
+    { id: 71, name: "Angry Blue Sky", nameJp: null, type: "unit", junctionAbility: "flame_fang", junctionAbilityName: "Flame Fang", character: "Balmung", cost: 2, trinity: "snipe", rarity: "common" },
+    { id: 72, name: "PK Network", nameJp: null, type: "unit", junctionAbility: "all_at_once", junctionAbilityName: "All At Once", character: "Bordeaux", cost: 2, trinity: "snipe", rarity: "common" },
+    { id: 73, name: "Two Fangs", nameJp: null, type: "unit", junctionAbility: "bone_crunching", junctionAbilityName: "Bone Crunching", character: "Matsu", cost: 3, trinity: "snipe", rarity: "common" },
+    { id: 74, name: "Gimme Some Chim!", nameJp: null, type: "unit", junctionAbility: "snipe_thunder", junctionAbilityName: "Snipe Thunder", character: "Haseo", cost: 3, trinity: "snipe", rarity: "rare" },
+    { id: 75, name: "Bland Self", nameJp: null, type: "unit", junctionAbility: "change_ring", junctionAbilityName: "Change Ring", character: "BT", cost: 3, trinity: "snipe", rarity: "rare" },
+    { id: 76, name: "Order Upheld", nameJp: null, type: "unit", junctionAbility: "flame_fang", junctionAbilityName: "Flame Fang", character: "Balmung", cost: 3, trinity: "snipe", rarity: "rare" },
+    { id: 77, name: "Rose Letters", nameJp: null, type: "unit", junctionAbility: "aurora_tears", junctionAbilityName: "Aurora Tears", character: "Endrance", cost: 4, trinity: "snipe", rarity: "rare" },
+    { id: 78, name: "Reckless Roar", nameJp: null, type: "unit", junctionAbility: "bone_crunching", junctionAbilityName: "Bone Crunching", character: "BlackRose", cost: 4, trinity: "snipe", rarity: "rare" },
+    { id: 79, name: "Check This Out!", nameJp: null, type: "unit", junctionAbility: "all_at_once", junctionAbilityName: "All At Once", character: "Atoli", cost: 5, trinity: "snipe", rarity: "rare" },
+    { id: 80, name: "Broken Full Moon", nameJp: null, type: "unit", junctionAbility: "meeting_of_souls", junctionAbilityName: "Meeting of Souls", character: "Sakubo", cost: 4, trinity: "snipe", rarity: "rare" },
+    { id: 81, name: "Dancing Lion", nameJp: null, type: "unit", junctionAbility: "will_of_similars", junctionAbilityName: "Will of Similars", character: "Gabi", cost: 5, trinity: "snipe", rarity: "super-rare" },
+    { id: 82, name: "Don't Kick!!", nameJp: null, type: "unit", junctionAbility: "trial_by_fire", junctionAbilityName: "Trial By Fire", character: "Haseo", cost: 6, trinity: "snipe", rarity: "super-rare" },
+    { id: 83, name: "Officially Allowed", nameJp: null, type: "unit", junctionAbility: "quickdance", junctionAbilityName: "Quickdance", character: "Shugo", cost: 6, trinity: "snipe", rarity: "super-rare" },
+    { id: 84, name: "Strongest Smile", nameJp: null, type: "unit", junctionAbility: "twilights_call", junctionAbilityName: "Twilight's Call", character: "Zelkova", cost: 6, trinity: "snipe", rarity: "ultra-rare" },
+    { id: 85, name: "Grim Reaper's Rondo", nameJp: null, type: "unit", junctionAbility: "avatars_descent", junctionAbilityName: "Avatar's Descent", character: "Haseo", cost: 7, trinity: "snipe", rarity: "ultra-rare" },
+
+    // Vol.3 Assault Units (#111-123)
+    { id: 111, name: "Zelpest Light Blast", nameJp: "照破のゼルブスト", type: "unit", junctionAbility: "double_trigger", junctionAbilityName: "Double Trigger", character: "Haseo", cost: 7, trinity: "assault", rarity: "ultra-rare" },
+    { id: 112, name: "Promised Power", nameJp: "約束されし威光", type: "unit", junctionAbility: "aida_berserk", junctionAbilityName: "AIDA Berserk", character: "AIDA Sakaki", cost: 6, trinity: "assault", rarity: "ultra-rare" },
+    { id: 113, name: "A Road to Change", nameJp: "やがて交わる道", type: "unit", junctionAbility: "blades_crossing", junctionAbilityName: "Blades Crossing", character: "Haseo", cost: 6, trinity: "assault", rarity: "super-rare" },
+    { id: 114, name: "Pandora's Box", nameJp: "パンドラボックス", type: "unit", junctionAbility: "aida_berserk", junctionAbilityName: "AIDA Berserk", character: "Ovan", cost: 5, trinity: "assault", rarity: "super-rare" },
+    { id: 115, name: "Pure Malice", nameJp: "無垢の悪意", type: "unit", junctionAbility: "light_of_annihilation", junctionAbilityName: "Light of Annihilation", character: "Cubia", cost: 5, trinity: "assault", rarity: "rare" },
+    { id: 116, name: "Howling Fang", nameJp: "叫喚の迷い牙", type: "unit", junctionAbility: "reckless_rewards", junctionAbilityName: "Reckless Rewards", character: "Haseo", cost: 4, trinity: "assault", rarity: "rare" },
+    { id: 117, name: "A Promise of Discord", nameJp: "暴虐の誓い", type: "unit", junctionAbility: "momentary_glory", junctionAbilityName: "Momentary Glory", character: "AIDA Sirius", cost: 4, trinity: "assault", rarity: "rare" },
+    { id: 118, name: "The Second Seal", nameJp: "第二の封印", type: "unit", junctionAbility: "avatar_berserk", junctionAbilityName: "Avatar Berserk", character: "Haseo", cost: 4, trinity: "assault", rarity: "rare" },
+    { id: 119, name: "I'm not your pupil!", nameJp: "弟子じゃねぇ！", type: "unit", junctionAbility: "first_to_action", junctionAbilityName: "First to Action", character: "Antares", cost: 4, trinity: "assault", rarity: "common" },
+    { id: 120, name: "Minimum Maxim", nameJp: "ミニマムマキシム", type: "unit", junctionAbility: "hammer_of_undoing", junctionAbilityName: "Hammer of Undoing", character: "Sirius", cost: 3, trinity: "assault", rarity: "common" },
+    { id: 121, name: "Heavenly Twilight Knight", nameJp: "天翔ける黄金の騎士", type: "unit", junctionAbility: "golden_spear", junctionAbilityName: "Golden Spear", character: "Piros the 3rd", cost: 3, trinity: "assault", rarity: "common" },
+    { id: 122, name: "Hurricane Knight", nameJp: "疾風の鉄騎", type: "unit", junctionAbility: "charge_ahead", junctionAbilityName: "Charge Ahead", character: "Haseo", cost: 3, trinity: "assault", rarity: "common" },
+    { id: 123, name: "The Vain King", nameJp: "空疎なる王者", type: "unit", junctionAbility: "first_strike", junctionAbilityName: "First Strike", character: "Taihaku", cost: 3, trinity: "assault", rarity: "common" },
+
+    // Vol.3 Shield Units (#124-137)
+    { id: 124, name: "What's Most Important", nameJp: "唯一の大切", type: "unit", junctionAbility: "long_awaited_return", junctionAbilityName: "Long-awaited Return", character: "Shino", cost: 7, trinity: "shield", rarity: "ultra-rare" },
+    { id: 125, name: "Operation Delta", nameJp: "オペレーションΔ", type: "unit", junctionAbility: "telepathy", junctionAbilityName: "Telepathy", character: "Haseo", cost: 6, trinity: "shield", rarity: "ultra-rare" },
+    { id: 126, name: "Overture of Destruction", nameJp: "崩壊の序曲", type: "unit", junctionAbility: "filling_hollow", junctionAbilityName: "Filling Hollow", character: "Atoli", cost: 6, trinity: "shield", rarity: "super-rare" },
+    { id: 127, name: "Playful Hermit", nameJp: "戯れる隠者", type: "unit", junctionAbility: "pattern_of_demons", junctionAbilityName: "Pattern of Demons", character: "Yata", cost: 5, trinity: "shield", rarity: "super-rare" },
+    { id: 128, name: "Flame Guardian", nameJp: "陽炎の守護者", type: "unit", junctionAbility: "anus_karma", junctionAbilityName: "Anu's Karma", character: "Atoli", cost: 5, trinity: "shield", rarity: "rare" },
+    { id: 129, name: "Did you see that!", nameJp: "それみたことか！", type: "unit", junctionAbility: "ingenious_scheme", junctionAbilityName: "Ingenious Scheme", character: "Phyllo", cost: 4, trinity: "shield", rarity: "rare" },
+    { id: 130, name: "Magic Surge", nameJp: "迸る魔力", type: "unit", junctionAbility: "detail_oriented", junctionAbilityName: "Detail Oriented", character: "Sakubo", cost: 4, trinity: "shield", rarity: "rare" },
+    { id: 131, name: "Limitless Knowledge", nameJp: "尽きぬ知識", type: "unit", junctionAbility: "different_mix", junctionAbilityName: "Different Mix", character: "Yata", cost: 4, trinity: "shield", rarity: "rare" },
+    { id: 132, name: "Masquerade Ball", nameJp: "仮面舞踏", type: "unit", junctionAbility: "promised_discretion", junctionAbilityName: "Promised Discretion", character: "Nala", cost: 4, trinity: "shield", rarity: "common" },
+    { id: 133, name: "Serpentarius", nameJp: "サーペンタリウス", type: "unit", junctionAbility: "teamwork", junctionAbilityName: "Teamwork", character: "Pi", cost: 4, trinity: "shield", rarity: "common" },
+    { id: 134, name: "A Time for Calm", nameJp: "穏やかな刻", type: "unit", junctionAbility: "immortal_genome", junctionAbilityName: "Immortal Genome", character: "Midori", cost: 3, trinity: "shield", rarity: "common" },
+    { id: 135, name: "Remorse's Companion", nameJp: "悔悟の同志", type: "unit", junctionAbility: "detail_oriented", junctionAbilityName: "Detail Oriented", character: "B-Set", cost: 3, trinity: "shield", rarity: "common" },
+    { id: 136, name: "Our Best Shot", nameJp: "僕らの精一杯", type: "unit", junctionAbility: "defensive_stance", junctionAbilityName: "Defensive Stance", character: "Silabus", cost: 3, trinity: "shield", rarity: "common" },
+    { id: 137, name: "Miracle", nameJp: "キミがいる奇跡", type: "unit", junctionAbility: "teamwork", junctionAbilityName: "Teamwork", character: "Tsukasa", cost: 3, trinity: "shield", rarity: "common" },
+
+    // Vol.3 Snipe Units (#138-150)
+    { id: 138, name: "Ultimate Thanatos", nameJp: "終極のタナトス", type: "unit", junctionAbility: "massacre_pulse", junctionAbilityName: "Massacre Pulse", character: "Haseo", cost: 7, trinity: "snipe", rarity: "ultra-rare" },
+    { id: 139, name: "A False Future", nameJp: "偽りの未来", type: "unit", junctionAbility: "rendezvous", junctionAbilityName: "Rendezvous", character: "Ovan", cost: 6, trinity: "snipe", rarity: "ultra-rare" },
+    { id: 140, name: "Creatures From the Dark", nameJp: "闇ヨリ出ズルモノ", type: "unit", junctionAbility: "super_clenching_teeth", junctionAbilityName: "Super Clenching Teeth", character: "Azure Kite", cost: 6, trinity: "snipe", rarity: "super-rare" },
+    { id: 141, name: "Chaotic Answer", nameJp: "混沌なる告解", type: "unit", junctionAbility: "avatar_berserk", junctionAbilityName: "Avatar Berserk", character: "Ovan", cost: 5, trinity: "snipe", rarity: "super-rare" },
+    { id: 142, name: "Cheer Up", nameJp: "元気出していこーね", type: "unit", junctionAbility: "quickdance", junctionAbilityName: "Quickdance", character: "Alkaid", cost: 5, trinity: "snipe", rarity: "rare" },
+    { id: 143, name: "A Glimpse of Twins", nameJp: "双極の片鱗", type: "unit", junctionAbility: "harmonic_rhythm", junctionAbilityName: "Harmonic Rhythm", character: "Sakubo", cost: 4, trinity: "snipe", rarity: "rare" },
+    { id: 144, name: "Next to You, Next to Me", nameJp: "キミの隣ボクの隣", type: "unit", junctionAbility: "fused_consciousness", junctionAbilityName: "Fused Consciousness", character: "Elk", cost: 4, trinity: "snipe", rarity: "rare" },
+    { id: 145, name: "Together with the Master", nameJp: "師匠と一緒", type: "unit", junctionAbility: "will_of_similars", junctionAbilityName: "Will of Similars", character: "Tabby", cost: 4, trinity: "snipe", rarity: "rare" },
+    { id: 146, name: "A Girl's Heart", nameJp: "心は女の子", type: "unit", junctionAbility: "folsets_trial", junctionAbilityName: "Folset's Trial", character: "Hiiragi", cost: 4, trinity: "snipe", rarity: "common" },
+    { id: 147, name: "Grunty Oink!", nameJp: "グランティブヒ！", type: "unit", junctionAbility: "aurora_tears", junctionAbilityName: "Aurora Tears", character: "Death Grunty", cost: 3, trinity: "snipe", rarity: "common" },
+    { id: 148, name: "A Hero's Arrival!", nameJp: "ヒーロー参上！", type: "unit", junctionAbility: "cross_counter", junctionAbilityName: "Cross Counter", character: "Natsume", cost: 3, trinity: "snipe", rarity: "common" },
+    { id: 149, name: "The Place for Evil", nameJp: "奸計の行方", type: "unit", junctionAbility: "teamwork", junctionAbilityName: "Teamwork", character: "TaN", cost: 3, trinity: "snipe", rarity: "common" },
+    { id: 150, name: "Cute Hunter", nameJp: "キュートハンター", type: "unit", junctionAbility: "energy_drain_3", junctionAbilityName: "Energy Drain", character: "Mistral", cost: 3, trinity: "snipe", rarity: "common" }
+  ],
+
+  getCard: function(id) {
+    var numId = typeof id === "string" ? parseInt(id, 10) : id;
+    var all = this.generals.concat(this.units);
+    for (var i = 0; i < all.length; i++) {
+      if (all[i].id === numId) return all[i];
+    }
+    return null;
+  },
+
+  getGenerals: function() {
+    return this.generals;
+  },
+
+  getUnits: function() {
+    return this.units;
+  }
+};

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRIMSON VS — .hack//G.U. Card Game</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ==================== TITLE SCREEN ==================== -->
+  <div id="screen-title" class="screen active">
+    <div class="title-container">
+      <div class="title-logo">
+        <div class="title-sub">— .hack//G.U. —</div>
+        <h1 class="title-text">CRIMSON VS</h1>
+        <div class="title-tagline">ALTIMIT Mine OS v2.38</div>
+      </div>
+      <div class="title-scanline"></div>
+      <nav class="title-menu">
+        <button class="btn btn-primary btn-lg" id="btn-start">START</button>
+        <button class="btn btn-secondary btn-lg" id="btn-collection">COLLECTION</button>
+      </nav>
+      <div class="title-footer">
+        <span class="title-version">Terminal://CC_Corp/ThWorld/CrimsonVS</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== DECK BUILDER SCREEN ==================== -->
+  <div id="screen-deck-builder" class="screen">
+    <header class="screen-header">
+      <button class="btn btn-icon" id="btn-back-title" title="Back to Title">&#9664; BACK</button>
+      <h2>DECK BUILDER</h2>
+      <div class="rank-display">
+        RANK: <span id="rank-number">50</span>
+        <span class="rank-separator">|</span>
+        W:<span id="rank-wins">0</span> / L:<span id="rank-losses">0</span>
+      </div>
+    </header>
+
+    <div class="deck-builder-layout">
+      <!-- Card Grid (left) -->
+      <section class="card-pool">
+        <div class="filter-bar">
+          <div class="filter-group filter-trinity">
+            <button class="filter-btn active" data-trinity="all">ALL</button>
+            <button class="filter-btn filter-assault" data-trinity="assault">ASSAULT</button>
+            <button class="filter-btn filter-shield" data-trinity="shield">SHIELD</button>
+            <button class="filter-btn filter-snipe" data-trinity="snipe">SNIPE</button>
+          </div>
+          <div class="filter-group filter-rarity">
+            <select id="filter-rarity">
+              <option value="all">All Rarities</option>
+              <option value="common">Common</option>
+              <option value="rare">Rare</option>
+              <option value="super-rare">Super Rare</option>
+              <option value="ultra-rare">Ultra Rare</option>
+            </select>
+          </div>
+          <div class="filter-group filter-type">
+            <select id="filter-type">
+              <option value="all">All Types</option>
+              <option value="general">Generals</option>
+              <option value="unit">Units</option>
+            </select>
+          </div>
+          <div class="filter-group filter-search">
+            <input type="text" id="filter-search" placeholder="Search cards..." autocomplete="off">
+          </div>
+        </div>
+        <div class="card-grid" id="card-grid"></div>
+      </section>
+
+      <!-- Deck Panel (right) -->
+      <aside class="deck-panel">
+        <h3 class="deck-panel-title">YOUR DECK</h3>
+
+        <div class="deck-general-slot">
+          <div class="slot-label">GENERAL</div>
+          <div class="card-slot card-slot-general" id="slot-general" data-slot="general">
+            <div class="slot-placeholder">Select a General</div>
+          </div>
+        </div>
+
+        <div class="charisma-bar-container">
+          <div class="charisma-label">CHARISMA: <span id="charisma-used">0</span> / <span id="charisma-total">0</span></div>
+          <div class="charisma-bar">
+            <div class="charisma-fill" id="charisma-fill"></div>
+          </div>
+        </div>
+
+        <div class="deck-unit-slots">
+          <div class="slot-label">UNITS</div>
+          <div class="unit-slots-row">
+            <div class="card-slot card-slot-unit" id="slot-unit-0" data-slot="0">
+              <div class="slot-placeholder">Unit 1</div>
+            </div>
+            <div class="card-slot card-slot-unit" id="slot-unit-1" data-slot="1">
+              <div class="slot-placeholder">Unit 2</div>
+            </div>
+            <div class="card-slot card-slot-unit" id="slot-unit-2" data-slot="2">
+              <div class="slot-placeholder">Unit 3</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="delta-combo-indicator" id="delta-combo-indicator">
+          <div class="delta-combo-icon">&#9651;</div>
+          <div class="delta-combo-text">No Delta Combo</div>
+        </div>
+
+        <div class="deck-actions">
+          <button class="btn btn-primary btn-lg" id="btn-battle" disabled>START BATTLE</button>
+          <button class="btn btn-secondary" id="btn-clear-deck">CLEAR DECK</button>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- ==================== BATTLE SCREEN ==================== -->
+  <div id="screen-battle" class="screen">
+    <div class="battle-layout">
+      <!-- Enemy Side -->
+      <div class="battle-side battle-enemy">
+        <div class="battle-side-header">
+          <div class="battle-name" id="enemy-name">OPPONENT</div>
+          <div class="battle-hp-bar">
+            <div class="hp-label">HP</div>
+            <div class="hp-bar-track">
+              <div class="hp-bar-fill" id="enemy-hp-fill"></div>
+            </div>
+            <div class="hp-value" id="enemy-hp-value">0</div>
+          </div>
+          <div class="battle-ap">AP: <span id="enemy-ap-value">0</span></div>
+        </div>
+        <div class="battle-cards battle-cards-enemy">
+          <div class="battle-card-slot" id="enemy-general-slot"></div>
+          <div class="battle-card-slot" id="enemy-unit-0"></div>
+          <div class="battle-card-slot" id="enemy-unit-1"></div>
+          <div class="battle-card-slot" id="enemy-unit-2"></div>
+        </div>
+      </div>
+
+      <!-- Center Action Area -->
+      <div class="battle-center">
+        <div class="battle-phase-label" id="battle-phase-label">READY</div>
+        <div class="battle-vs-icon">VS</div>
+        <div class="battle-action-area" id="battle-action-area"></div>
+      </div>
+
+      <!-- Player Side -->
+      <div class="battle-side battle-player">
+        <div class="battle-cards battle-cards-player">
+          <div class="battle-card-slot" id="player-general-slot"></div>
+          <div class="battle-card-slot" id="player-unit-0"></div>
+          <div class="battle-card-slot" id="player-unit-1"></div>
+          <div class="battle-card-slot" id="player-unit-2"></div>
+        </div>
+        <div class="battle-side-header">
+          <div class="battle-name" id="player-name">YOU</div>
+          <div class="battle-hp-bar">
+            <div class="hp-label">HP</div>
+            <div class="hp-bar-track">
+              <div class="hp-bar-fill" id="player-hp-fill"></div>
+            </div>
+            <div class="hp-value" id="player-hp-value">0</div>
+          </div>
+          <div class="battle-ap">AP: <span id="player-ap-value">0</span></div>
+        </div>
+      </div>
+
+      <!-- Battle Log -->
+      <div class="battle-log" id="battle-log">
+        <div class="battle-log-title">BATTLE LOG</div>
+        <div class="battle-log-entries" id="battle-log-entries"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== RESULTS SCREEN ==================== -->
+  <div id="screen-results" class="screen">
+    <div class="results-container">
+      <div class="results-banner" id="results-banner">
+        <h2 class="results-text" id="results-text">VICTORY</h2>
+      </div>
+      <div class="results-stats">
+        <div class="results-stat-row">
+          <span class="stat-label">Your HP</span>
+          <span class="stat-value" id="result-player-hp">0</span>
+        </div>
+        <div class="results-stat-row">
+          <span class="stat-label">Enemy HP</span>
+          <span class="stat-value" id="result-enemy-hp">0</span>
+        </div>
+        <div class="results-stat-row">
+          <span class="stat-label">Unit Battles Won</span>
+          <span class="stat-value" id="result-units-won">0</span>
+        </div>
+        <div class="results-stat-row">
+          <span class="stat-label">Your Rank</span>
+          <span class="stat-value" id="result-rank">50</span>
+        </div>
+      </div>
+      <div class="results-actions">
+        <button class="btn btn-primary btn-lg" id="btn-continue">CONTINUE</button>
+        <button class="btn btn-secondary btn-lg" id="btn-rematch">REMATCH</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== COLLECTION SCREEN ==================== -->
+  <div id="screen-collection" class="screen">
+    <header class="screen-header">
+      <button class="btn btn-icon" id="btn-back-title-collection" title="Back to Title">&#9664; BACK</button>
+      <h2>CARD COLLECTION</h2>
+      <div class="collection-count">
+        <span id="collection-total">0</span> CARDS
+      </div>
+    </header>
+    <div class="collection-filters">
+      <div class="filter-group filter-trinity">
+        <button class="filter-btn active" data-trinity="all" data-context="collection">ALL</button>
+        <button class="filter-btn filter-assault" data-trinity="assault" data-context="collection">ASSAULT</button>
+        <button class="filter-btn filter-shield" data-trinity="shield" data-context="collection">SHIELD</button>
+        <button class="filter-btn filter-snipe" data-trinity="snipe" data-context="collection">SNIPE</button>
+      </div>
+      <div class="filter-group">
+        <select id="collection-filter-rarity">
+          <option value="all">All Rarities</option>
+          <option value="common">Common</option>
+          <option value="rare">Rare</option>
+          <option value="super-rare">Super Rare</option>
+          <option value="ultra-rare">Ultra Rare</option>
+        </select>
+        <select id="collection-filter-type">
+          <option value="all">All Types</option>
+          <option value="general">Generals</option>
+          <option value="unit">Units</option>
+        </select>
+      </div>
+      <div class="filter-group filter-search">
+        <input type="text" id="collection-search" placeholder="Search cards..." autocomplete="off">
+      </div>
+    </div>
+    <div class="collection-grid" id="collection-grid"></div>
+
+    <!-- Card Detail Modal -->
+    <div class="card-modal-overlay" id="card-modal-overlay">
+      <div class="card-modal" id="card-modal">
+        <button class="card-modal-close" id="card-modal-close">&times;</button>
+        <div class="card-modal-content" id="card-modal-content"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== Floating Effects Container ==================== -->
+  <div id="floating-effects"></div>
+
+  <!-- Scripts (loaded in dependency order) -->
+  <script src="js/cards-data.js"></script>
+  <script src="js/card-images.js"></script>
+  <script src="js/delta-combos.js"></script>
+  <script src="js/junction-engine.js"></script>
+  <script src="js/battle-engine.js"></script>
+  <script src="js/ai.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/deck-builder.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      AI.init();
+      UI.init();
+      DeckBuilder.init();
+    });
+  </script>
+</body>
+</html>
