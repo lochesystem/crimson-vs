@@ -11,3 +11,6 @@ desktop.ini
 
 # Logs
 *.log
+
+# Generated dev artifacts
+scripts/image-map-output.json

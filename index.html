@@ -22,6 +22,7 @@
       <div class="title-scanline"></div>
       <nav class="title-menu">
         <button class="btn btn-primary btn-lg" id="btn-start">START</button>
+        <button class="btn btn-primary btn-lg" id="btn-afk-mode">AFK MODE</button>
         <button class="btn btn-secondary btn-lg" id="btn-collection">COLLECTION</button>
       </nav>
       <div class="title-footer">
@@ -204,11 +205,64 @@
           <span class="stat-label">Your Rank</span>
           <span class="stat-value" id="result-rank">50</span>
         </div>
+        <div class="results-stat-row" id="result-drop-row" style="display:none">
+          <span class="stat-label">Card Drop</span>
+          <span class="stat-value" id="result-drop">—</span>
+        </div>
       </div>
       <div class="results-actions">
         <button class="btn btn-primary btn-lg" id="btn-continue">CONTINUE</button>
         <button class="btn btn-secondary btn-lg" id="btn-rematch">REMATCH</button>
       </div>
+    </div>
+  </div>
+
+  <!-- ==================== AFK MODE SCREEN ==================== -->
+  <div id="screen-afk" class="screen">
+    <header class="screen-header">
+      <button class="btn btn-icon" id="btn-afk-back" title="Back to Title">&#9664; BACK</button>
+      <h2>AFK MODE</h2>
+      <div class="rank-display">
+        RANK: <span id="afk-rank">50</span>
+      </div>
+    </header>
+
+    <div class="afk-layout">
+      <section class="afk-panel">
+        <h3 class="afk-panel-title">AUTO BATTLE</h3>
+        <p class="afk-desc">Battles run automatically while you are away — just like the original Crimson VS in ALTIMIT Mine OS.</p>
+
+        <div class="afk-stats">
+          <div class="afk-stat"><span class="afk-stat-label">Status</span><span id="afk-status" class="afk-stat-value">Idle</span></div>
+          <div class="afk-stat"><span class="afk-stat-label">Wins / Losses</span><span class="afk-stat-value"><span id="afk-wins">0</span> / <span id="afk-losses">0</span></span></div>
+          <div class="afk-stat"><span class="afk-stat-label">AFK Battles</span><span id="afk-battles" class="afk-stat-value">0</span></div>
+          <div class="afk-stat"><span class="afk-stat-label">Collection</span><span id="afk-owned" class="afk-stat-value">0 / 150</span></div>
+          <div class="afk-stat"><span class="afk-stat-label">Last Drop</span><span id="afk-last-drop" class="afk-stat-value">—</span></div>
+        </div>
+
+        <div class="afk-deck-info">
+          <span class="afk-stat-label">Deck</span>
+          <span id="afk-deck-status" class="afk-deck-status">—</span>
+        </div>
+
+        <div class="afk-controls">
+          <label class="afk-speed-label" for="afk-speed">Battle Speed</label>
+          <select id="afk-speed" class="afk-speed-select">
+            <option value="slow">Slow (60s)</option>
+            <option value="normal" selected>Normal (30s)</option>
+            <option value="fast">Fast (10s)</option>
+          </select>
+        </div>
+
+        <div class="afk-actions">
+          <button class="btn btn-primary" id="btn-afk-start">START AFK</button>
+          <button class="btn btn-secondary" id="btn-afk-stop" disabled>STOP</button>
+          <button class="btn btn-secondary" id="btn-afk-pip">OPEN PiP</button>
+          <button class="btn btn-secondary" id="btn-afk-replay">WATCH LAST BATTLE</button>
+        </div>
+
+        <div class="afk-toast-area" id="afk-toast-area"></div>
+      </section>
     </div>
   </div>
 
@@ -266,14 +320,23 @@
   <script src="js/delta-combos.js"></script>
   <script src="js/junction-engine.js"></script>
   <script src="js/battle-engine.js"></script>
+  <script src="js/save.js"></script>
+  <script src="js/inventory.js"></script>
+  <script src="js/progression.js"></script>
   <script src="js/ai.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/deck-builder.js"></script>
+  <script src="js/afk.js"></script>
+  <script src="js/pip.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
+      Save.init();
+      Inventory.init();
       AI.init();
       UI.init();
       DeckBuilder.init();
+      AFK.init();
+      PiP.init();
     });
   </script>
 </body>

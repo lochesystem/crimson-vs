@@ -30,9 +30,10 @@ window.DeckBuilder = {
 
     allCards.forEach(function (card) {
       var isSelected = self._isCardSelected(card);
-      var isDisabled = false;
+      var isLocked = window.Inventory && !Inventory.owns(card.id);
+      var isDisabled = isLocked;
 
-      if (card.type === "unit" && !isSelected) {
+      if (card.type === "unit" && !isSelected && !isLocked) {
         if (!self.selectedGeneral) isDisabled = true;
         else if (card.cost > remaining) isDisabled = true;
         else if (self.selectedUnits[0] && self.selectedUnits[1] && self.selectedUnits[2]) isDisabled = true;
@@ -41,7 +42,12 @@ window.DeckBuilder = {
         // generals remain clickable to swap
       }
 
-      var cardEl = UI.renderCard(card, { size: "small", clickable: true, selected: isSelected });
+      var cardEl = UI.renderCard(card, {
+        size: "small",
+        clickable: !isLocked,
+        selected: isSelected,
+        locked: isLocked
+      });
       if (isDisabled) cardEl.classList.add("disabled");
 
       cardEl.addEventListener("click", function () {
@@ -182,59 +188,120 @@ window.DeckBuilder = {
 
   /* ---------- Persistence ---------- */
   saveDeck: function () {
-    var data = {
-      generalId: this.selectedGeneral ? this.selectedGeneral.id : null,
-      unitIds: this.selectedUnits.map(function (u) { return u ? u.id : null; })
-    };
-    try { localStorage.setItem("crimsonvs_deck", JSON.stringify(data)); } catch (e) { /* noop */ }
-  },
-
-  _loadDeck: function () {
+    var generalId = this.selectedGeneral ? this.selectedGeneral.id : null;
+    var unitIds = this.selectedUnits.map(function (u) { return u ? u.id : null; });
+    if (window.Save) {
+      Save.setDeck(generalId, unitIds);
+      return;
+    }
     try {
-      var raw = localStorage.getItem("crimsonvs_deck");
-      if (!raw || !window.CardsData) return;
-      var data = JSON.parse(raw);
-
-      if (data.generalId) {
-        var gen = CardsData.getCard(data.generalId);
-        if (gen && gen.type === "general") this.selectedGeneral = gen;
-      }
-
-      if (data.unitIds && Array.isArray(data.unitIds)) {
-        for (var i = 0; i < 3; i++) {
-          if (data.unitIds[i]) {
-            var unit = CardsData.getCard(data.unitIds[i]);
-            if (unit && unit.type === "unit") this.selectedUnits[i] = unit;
-          }
-        }
-      }
-
-      this._updateDeckDisplay();
+      localStorage.setItem("crimsonvs_deck", JSON.stringify({ generalId: generalId, unitIds: unitIds }));
     } catch (e) { /* noop */ }
   },
 
+  _loadDeck: function () {
+    if (!window.CardsData) return;
+
+    if (window.Inventory) Inventory.sanitizeDeckIds();
+
+    var data;
+    if (window.Save) {
+      data = Save.getDeckIds();
+    } else {
+      try {
+        var raw = localStorage.getItem("crimsonvs_deck");
+        if (!raw) return;
+        data = JSON.parse(raw);
+      } catch (e) { return; }
+    }
+
+    if (data.generalId) {
+      var gen = CardsData.getCard(data.generalId);
+      if (gen && gen.type === "general") {
+        if (!window.Inventory || Inventory.owns(gen.id)) this.selectedGeneral = gen;
+      }
+    }
+
+    if (data.unitIds && Array.isArray(data.unitIds)) {
+      for (var i = 0; i < 3; i++) {
+        if (data.unitIds[i]) {
+          var unit = CardsData.getCard(data.unitIds[i]);
+          if (unit && unit.type === "unit") {
+            if (!window.Inventory || Inventory.owns(unit.id)) this.selectedUnits[i] = unit;
+          }
+        }
+      }
+    }
+
+    this._updateDeckDisplay();
+  },
+
   /* ---------- Battle ---------- */
-  startBattle: function () {
-    var deck = this.getDeck();
-    if (!deck) return;
+  resolveBattle: function (deck, options) {
+    options = options || {};
+    deck = deck || this.getDeck();
+    if (!deck) return null;
 
     if (window.BattleEngine && BattleEngine.validateDeck) {
       var valid = BattleEngine.validateDeck(deck);
       if (valid && valid.valid === false) {
-        alert("Invalid deck: " + (valid.errors ? valid.errors.join(", ") : "Unknown error"));
-        return;
+        if (!options.silent) {
+          alert("Invalid deck: " + (valid.errors ? valid.errors.join(", ") : "Unknown error"));
+        }
+        return null;
+      }
+    }
+
+    if (window.Inventory) {
+      var ownedCheck = Inventory.validateDeckOwned(deck);
+      if (!ownedCheck.valid) {
+        if (!options.silent) {
+          alert("Deck has unowned cards: " + ownedCheck.errors.join(", "));
+        }
+        return null;
       }
     }
 
     var opponent = AI.generateOpponent();
     this._lastOpponent = opponent;
 
-    var result = BattleEngine.runBattle(deck, opponent.deck);
+    var seed = options.seed != null ? options.seed : Date.now();
+    var result = BattleEngine.runBattle(deck, opponent.deck, seed);
+    var won = result.winner === "player";
 
-    AI.reportResult(result.winner === "player");
+    AI.reportResult(won);
+
+    var reward = null;
+    if (window.Progression) {
+      reward = Progression.grantRewards(won, AI.playerRank, opponent.name);
+    }
+
+    if (window.Save) {
+      var sd = Save.get();
+      sd.lastBattle = {
+        result: result,
+        deck: deck,
+        opponent: opponent,
+        at: Date.now()
+      };
+      Save.save();
+    }
+
+    return { result: result, opponent: opponent, reward: reward, won: won };
+  },
+
+  startBattle: function () {
+    var deck = this.getDeck();
+    var resolved = this.resolveBattle(deck);
+    if (!resolved) return;
+
     this._updateRankDisplay();
-
-    UI.playBattle(result, deck, opponent.deck, opponent.name + " (Rank " + opponent.rank + ")");
+    UI.playBattle(
+      resolved.result,
+      deck,
+      resolved.opponent.deck,
+      resolved.opponent.name + " (Rank " + resolved.opponent.rank + ")"
+    );
   },
 
   /* ---------- UI Updates ---------- */
