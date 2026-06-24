@@ -42,7 +42,17 @@ Inspired by the original game: Crimson VS ran in the background on ALTIMIT Mine 
 | Normal | 30 seconds |
 | Fast | 10 seconds |
 
-Wins grant a random new card (weighted by rank). Duplicates are ignored in v1. Use **OPEN PiP** for a mini window (Chrome/Edge) or a floating widget in other browsers.
+Wins grant a random new card (weighted by rank). Duplicates are ignored in v1.
+
+**AFK mini window** (button on the AFK screen) tries three modes in order:
+
+| Mode | Browsers | Behavior |
+|------|----------|----------|
+| **OPEN PiP** | Chrome 116+, Edge, Opera (HTTPS or localhost) | Native floating window over other apps (Document Picture-in-Picture) |
+| **FLOAT WINDOW** | Firefox, Opera, older browsers, when native PiP fails | Separate `window.open` popup — floats on the desktop; allow popups for the site |
+| **FLOAT WIDGET** | Last resort if popups are blocked | Draggable panel inside the tab (drag the title bar) |
+
+Serve over HTTPS or `localhost` for native PiP. On Opera, if you see FLOAT WINDOW instead of OPEN PiP, the popup still detaches from the tab.
 
 ### Battle phases (manual mode)
 

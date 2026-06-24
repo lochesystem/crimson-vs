@@ -1586,6 +1586,13 @@ input, select { font-family: var(--font-body); }
   box-shadow: 0 8px 32px rgba(0,0,0,0.5);
 }
 .afk-float-widget.hidden { display: none; }
+.afk-float-widget .pip-title.pip-drag-handle {
+  cursor: grab;
+  user-select: none;
+}
+.afk-float-widget.dragging .pip-title.pip-drag-handle {
+  cursor: grabbing;
+}
 .afk-float-widget .pip-title {
   font-family: var(--font-heading);
   font-size: 0.7rem;
