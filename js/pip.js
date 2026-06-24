@@ -1,48 +1,120 @@
 /* ========================================================
-   CRIMSON VS — Picture-in-Picture + Widget Fallback
+   CRIMSON VS — Picture-in-Picture + Popup + Widget Fallback
    ======================================================== */
 window.PiP = {
   _pipWindow: null,
+  _popupWindow: null,
+  _popupClosePoll: null,
   _widget: null,
   _widgetVisible: false,
   _animTimeouts: [],
   _countdownInterval: null,
   _animating: false,
 
-  isSupported: function () {
+  POPUP_NAME: "crimsonvs-afk-pip",
+  POPUP_FEATURES: "width=360,height=340,menubar=no,toolbar=no,location=no,status=no,resizable=yes,scrollbars=no",
+
+  isNativeSupported: function () {
     return !!(window.documentPictureInPicture && documentPictureInPicture.requestWindow);
   },
 
+  isSupported: function () {
+    return this.isNativeSupported();
+  },
+
+  _resolvePipMode: function () {
+    if (this.isNativeSupported()) return "native";
+    return "popup";
+  },
+
+  _updateButtonLabel: function () {
+    var btn = document.getElementById("btn-afk-pip");
+    if (!btn) return;
+
+    var mode = this._resolvePipMode();
+    var labels = {
+      native: "OPEN PiP",
+      popup: "FLOAT WINDOW",
+      widget: "FLOAT WIDGET"
+    };
+    var tips = {
+      native: "Open a system floating window (Chrome, Edge, Opera — requires HTTPS or localhost)",
+      popup: "Open a separate browser window that floats over other apps",
+      widget: "In-tab draggable widget (fallback when popups are blocked)"
+    };
+
+    btn.textContent = labels[mode] || labels.widget;
+    btn.title = tips[mode] || tips.widget;
+  },
+
   isActive: function () {
-    if (this._pipWindow && !this._pipWindow.closed) return true;
+    return this._isAnyOpen();
+  },
+
+  _isPipOpen: function () {
+    return !!(this._pipWindow && !this._pipWindow.closed);
+  },
+
+  _isPopupOpen: function () {
+    return !!(this._popupWindow && !this._popupWindow.closed);
+  },
+
+  _isAnyOpen: function () {
+    if (this._isPipOpen()) return true;
+    if (this._isPopupOpen()) return true;
     return this._widgetVisible;
   },
 
   init: function () {
     this._createWidget();
-    var btn = document.getElementById("btn-afk-pip");
-    if (btn) {
-      btn.textContent = this.isSupported() ? "OPEN PiP" : "FLOAT WIDGET";
-    }
+    this._updateButtonLabel();
   },
 
   toggle: function () {
-    if (this.isSupported()) {
-      if (this._pipWindow && !this._pipWindow.closed) {
-        this._pipWindow.close();
-        this._pipWindow = null;
-      } else {
-        this.openPiP();
-      }
-    } else {
-      this._toggleWidget();
+    if (this._isAnyOpen()) {
+      this._closeAll();
+      return;
     }
+
+    var mode = this._resolvePipMode();
+    if (mode === "native") {
+      this.openPiP();
+    } else {
+      this.openPopupWindow();
+    }
+  },
+
+  _closeAll: function () {
+    if (this._pipWindow && !this._pipWindow.closed) {
+      this._pipWindow.close();
+    }
+    this._pipWindow = null;
+
+    if (this._popupWindow && !this._popupWindow.closed) {
+      this._popupWindow.close();
+    }
+    this._popupWindow = null;
+    this._stopPopupPoll();
+
+    if (this._widget) {
+      this._widgetVisible = false;
+      this._widget.classList.add("hidden");
+    }
+
+    this._abortAnimation();
+  },
+
+  _attachToExternalDoc: function (doc) {
+    doc.body.innerHTML = this._buildHTML();
+    this._injectStyles(doc);
+    this.update();
+    this.refreshIdle();
   },
 
   openPiP: function () {
     var self = this;
-    if (!this.isSupported()) {
-      this._toggleWidget();
+    if (!this.isNativeSupported()) {
+      this.openPopupWindow();
       return;
     }
 
@@ -51,18 +123,85 @@ window.PiP = {
       height: 300
     }).then(function (pipWin) {
       self._pipWindow = pipWin;
-      pipWin.document.body.innerHTML = self._buildHTML();
-      self._injectStyles(pipWin.document);
-      self.update();
-      self.refreshIdle();
+      self._attachToExternalDoc(pipWin.document);
 
       pipWin.addEventListener("pagehide", function () {
         self._pipWindow = null;
         self._abortAnimation();
       });
     }).catch(function () {
-      self._toggleWidget();
+      self._showFallbackToast("Native PiP unavailable — opening popup window");
+      self.openPopupWindow();
     });
+  },
+
+  openPopupWindow: function () {
+    var self = this;
+
+    if (this._isPopupOpen()) {
+      this._popupWindow.focus();
+      return;
+    }
+
+    var win = window.open("about:blank", this.POPUP_NAME, this.POPUP_FEATURES);
+    if (!win) {
+      this._showFallbackToast("Popups blocked — using in-tab widget");
+      this._showWidget();
+      return;
+    }
+
+    this._popupWindow = win;
+    this._attachToExternalDoc(win.document);
+
+    try {
+      win.document.title = "Crimson VS — AFK";
+    } catch (e) { /* noop */ }
+
+    this._startPopupPoll();
+
+    var onClose = function () {
+      self._popupWindow = null;
+      self._stopPopupPoll();
+      self._abortAnimation();
+    };
+
+    try {
+      win.addEventListener("beforeunload", onClose);
+      win.addEventListener("pagehide", onClose);
+    } catch (e) { /* noop */ }
+  },
+
+  _startPopupPoll: function () {
+    var self = this;
+    this._stopPopupPoll();
+    this._popupClosePoll = setInterval(function () {
+      if (!self._popupWindow || self._popupWindow.closed) {
+        self._popupWindow = null;
+        self._stopPopupPoll();
+        self._abortAnimation();
+      }
+    }, 500);
+  },
+
+  _stopPopupPoll: function () {
+    if (this._popupClosePoll) {
+      clearInterval(this._popupClosePoll);
+      this._popupClosePoll = null;
+    }
+  },
+
+  _showFallbackToast: function (message) {
+    var container = document.getElementById("afk-toast-area");
+    if (!container) return;
+
+    var el = document.createElement("div");
+    el.className = "afk-toast";
+    el.textContent = message;
+    container.appendChild(el);
+    setTimeout(function () { el.remove(); }, 4000);
+    while (container.children.length > 5) {
+      container.removeChild(container.firstChild);
+    }
   },
 
   _createWidget: function () {
@@ -74,22 +213,73 @@ window.PiP = {
     this._widget = el;
 
     var self = this;
-    document.getElementById("afk-widget-close").addEventListener("click", function () {
+    document.getElementById("afk-widget-close").addEventListener("click", function (e) {
+      e.stopPropagation();
       self._widgetVisible = false;
       el.classList.add("hidden");
       self._abortAnimation();
     });
+
+    this._bindWidgetDrag(el);
+  },
+
+  _bindWidgetDrag: function (el) {
+    var title = el.querySelector(".pip-title");
+    if (!title) return;
+
+    title.classList.add("pip-drag-handle");
+    var drag = null;
+
+    title.addEventListener("mousedown", function (e) {
+      if (e.button !== 0) return;
+      e.preventDefault();
+
+      var rect = el.getBoundingClientRect();
+      el.style.bottom = "auto";
+      el.style.right = "auto";
+      el.style.left = rect.left + "px";
+      el.style.top = rect.top + "px";
+
+      drag = {
+        offsetX: e.clientX - rect.left,
+        offsetY: e.clientY - rect.top
+      };
+      el.classList.add("dragging");
+    });
+
+    document.addEventListener("mousemove", function (e) {
+      if (!drag) return;
+      var x = e.clientX - drag.offsetX;
+      var y = e.clientY - drag.offsetY;
+      var maxX = window.innerWidth - el.offsetWidth;
+      var maxY = window.innerHeight - el.offsetHeight;
+      el.style.left = Math.max(0, Math.min(x, maxX)) + "px";
+      el.style.top = Math.max(0, Math.min(y, maxY)) + "px";
+    });
+
+    document.addEventListener("mouseup", function () {
+      if (!drag) return;
+      drag = null;
+      el.classList.remove("dragging");
+    });
+  },
+
+  _showWidget: function () {
+    if (!this._widget) return;
+    this._widgetVisible = true;
+    this._widget.classList.remove("hidden");
+    this.update();
+    this.refreshIdle();
   },
 
   _toggleWidget: function () {
     if (!this._widget) return;
-    this._widgetVisible = !this._widgetVisible;
-    this._widget.classList.toggle("hidden", !this._widgetVisible);
     if (this._widgetVisible) {
-      this.update();
-      this.refreshIdle();
-    } else {
+      this._widgetVisible = false;
+      this._widget.classList.add("hidden");
       this._abortAnimation();
+    } else {
+      this._showWidget();
     }
   },
 
@@ -155,15 +345,27 @@ window.PiP = {
     doc.head.appendChild(style);
   },
 
-  _getStageDocs: function () {
+  _getExternalDocs: function () {
     var docs = [];
-    if (this._pipWindow && !this._pipWindow.closed) {
+    if (this._isPipOpen()) {
       docs.push(this._pipWindow.document);
     }
+    if (this._isPopupOpen()) {
+      docs.push(this._popupWindow.document);
+    }
+    return docs;
+  },
+
+  _getStageDocs: function () {
+    var docs = this._getExternalDocs();
     if (this._widgetVisible && this._widget) {
       docs.push(document);
     }
     return docs;
+  },
+
+  _getUpdateDocs: function () {
+    return this._getStageDocs();
   },
 
   _getStage: function (doc) {
@@ -303,14 +505,6 @@ window.PiP = {
     return id;
   },
 
-  _clearStage: function () {
-    var docs = this._getStageDocs();
-    for (var i = 0; i < docs.length; i++) {
-      var stage = this._getStage(docs[i]);
-      if (stage) stage.innerHTML = "";
-    }
-  },
-
   _renderMiniCardHTML: function (card, side) {
     var cls = "pip-mini-card " + (side === "enemy" ? "enemy right" : "left");
     var inner = "";
@@ -362,10 +556,8 @@ window.PiP = {
       if (!eUnit && enemyDeck.units[0]) eUnit = enemyDeck.units[0];
     }
 
-    // Phase 1: BATTLE banner
     this._showInAllStages('<div class="pip-phase-banner">BATTLE</div>');
 
-    // Phase 2: Mini clash
     this._schedule(function () {
       var clashHtml =
         '<div class="pip-mini-clash">' +
@@ -376,13 +568,11 @@ window.PiP = {
       self._showInAllStages(clashHtml);
     }, 400);
 
-    // Phase 3: WIN / LOSS
     this._schedule(function () {
       var resultHtml = '<div class="pip-result ' + (won ? "win" : "loss") + '">' + (won ? "WIN" : "LOSS") + "</div>";
       self._showInAllStages(resultHtml);
     }, 1200);
 
-    // Phase 4: Card drop
     var reward = resolved.reward;
     if (reward && reward.card && !reward.duplicate) {
       this._schedule(function () {
@@ -400,7 +590,6 @@ window.PiP = {
       }, 1800);
     }
 
-    // Phase 5: Return to idle countdown + update stats
     this._schedule(function () {
       self._animating = false;
       self.update();
@@ -427,11 +616,7 @@ window.PiP = {
       "pip-drop": dropText
     };
 
-    var targets = [];
-    if (this._widgetVisible) targets.push(document);
-    if (this._pipWindow && !this._pipWindow.closed) {
-      targets.push(this._pipWindow.document);
-    }
+    var targets = this._getUpdateDocs();
 
     targets.forEach(function (doc) {
       Object.keys(vals).forEach(function (id) {
